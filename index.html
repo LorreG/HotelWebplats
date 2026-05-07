@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal Hotel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-box">
+    <img class="logo" src="./logo.webp" alt="Royal Hotel logo">
+    <div class="logo-name">Royal Hotel</div>
+  </div>
+  <div class="hero-img">
+    <img class="header-image" src="./header.webp" alt="Header image">
+    <div class="water-shimmer"></div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Visa meny">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+  <ul id="main-nav" role="menu">
+    <li role="none"><a role="menuitem" href="#" class="active" onclick="showPage('valkommen', this); return false;">Välkommen</a></li>
+    <li role="none"><a role="menuitem" href="#" onclick="showPage('boka', this); return false;">Boka</a></li>
+    <li role="none"><a role="menuitem" href="#" onclick="showPage('hitta', this); return false;">Hitta</a></li>
+    <li role="none"><a role="menuitem" href="#" onclick="showPage('kontakta', this); return false;">Kontakta</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- VÄLKOMMEN -->
+  <div id="page-valkommen" class="page active">
+    <div class="two-col">
+      <div class="card">
+        <h2>Välkommen</h2>
+        <p>
+          Välkommen till Royal Hotel – en fristad av lyx och lugn vid Thondi Beach i Tamil Nadu, Indien.
+          Här möter du varm sydindisk gästfrihet i en omgivning präglad av kristallklart vatten och
+          palmkantade stränder. Oavsett om du söker avkoppling vid poolen, kulinariska upplevelser
+          eller äventyr längs kusten, är vi här för att göra din vistelse oförglömlig.
+          Låt oss ta hand om varje detalj – välkommen hem till Royal Hotel.
+        </p>
+      </div>
+      <div class="card">
+        <ul>
+          <li>Poolområde med havsvy</li>
+          <li>Restaurang &amp; bar</li>
+          <li>Spa &amp; välmående</li>
+          <li>Gratis WiFi</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOKA -->
+  <div id="page-boka" class="page">
+    <div class="two-col">
+      <div class="card">
+        <h2>Boka rum</h2>
+        <div class="form-grid">
+          <label for="fname">Förnamn</label>
+          <input type="text" id="fname" placeholder="Ditt förnamn" />
+
+          <label for="lname">Efternamn</label>
+          <input type="text" id="lname" placeholder="Ditt efternamn" />
+
+          <label for="rumstyp">Rumstyp</label>
+          <select id="rumstyp">
+            <option value="">Välj rumstyp…</option>
+            <option>Standard enkelrum</option>
+            <option>Standard dubbelrum</option>
+            <option>Deluxe dubbelrum</option>
+            <option>Svit</option>
+          </select>
+
+          <label for="ovrigt">Övrigt</label>
+          <textarea id="ovrigt" placeholder="Eventuella önskemål…"></textarea>
+        </div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;gap:16px;">
+        <p style="font-size:16px;font-weight:400;">Frukost inkluderad?</p>
+        <div class="radio-group">
+          <label><input type="radio" name="breakfast" value="ja" checked /> Ja</label>
+          <label><input type="radio" name="breakfast" value="nej" /> Nej</label>
+        </div>
+        <button class="btn-skicka" onclick="handleBokning()">Skicka</button>
+        <p id="boka-confirm" style="font-size:14px;opacity:0;transition:opacity 0.4s;color:#f5f0e8;">✓ Din bokning har skickats!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HITTA -->
+  <div id="page-hitta" class="page">
+    <div class="two-col">
+      <div class="card">
+        <h2>Hitta hit</h2>
+        <iframe
+          class="map-embed"
+          src="https://maps.google.com/maps?q=Thondi+Beach,+Tamil+Nadu,+India&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="card">
+        <h2>Adress</h2>
+        <p class="contact-info">
+          Royal Hotel<br>
+          P2VC+7Q2, Thondi Beach Road<br>
+          Thondi, Tamil Nadu 623409<br>
+          Indien<br><br>
+          📞 420‑676169<br>
+          ✉️ something@gmail.com
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- KONTAKTA -->
+  <div id="page-kontakta" class="page">
+    <div class="two-col">
+      <div class="card">
+        <h2>Telefon</h2>
+        <p class="contact-info">📞 420‑676169</p>
+      </div>
+      <div class="card">
+        <h2>E‑post</h2>
+        <p class="contact-info">✉️ something@gmail.com</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <span>Royal Hotel</span>
+  <span class="divider">|</span>
+  <span>P2VC+7Q2, Thondi, Tamil Nadu 623409, Indien</span>
+  <span class="divider">|</span>
+  <span>420‑676169</span>
+</footer>
+
+<script>
+  function showPage(id, link) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.add('active');
+    if (link) link.classList.add('active');
+    // close mobile menu after click
+    const btn = document.querySelector('.nav-toggle');
+    if (document.body.classList.contains('nav-open')) {
+      document.body.classList.remove('nav-open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function handleBokning() {
+    const confirm = document.getElementById('boka-confirm');
+    if (!confirm) return;
+    confirm.style.opacity = '1';
+    setTimeout(() => { confirm.style.opacity = '0'; }, 3000);
+  }
+
+  // Hamburger toggle + accessibility (close on ESC)
+  (function () {
+    const btn = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('main-nav');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.classList.toggle('open');
+      document.body.classList.toggle('nav-open');
+      if (!expanded) menu.querySelector('a')?.focus();
+    });
+    // close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+        document.body.classList.remove('nav-open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus();
+      }
+    });
+    // close when clicking a link (handled in showPage) and also when clicking outside menu
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('nav') && document.body.classList.contains('nav-open')) {
+        document.body.classList.remove('nav-open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+</body>
+</html>
