@@ -12,11 +12,20 @@
 <!-- HEADER -->
 <header>
   <div class="logo-box">
-    <img class="logo" src="./logo.webp" alt="Royal Hotel logo">
-    <div class="logo-name">Royal Hotel</div>
+    <picture>
+      <source srcset="logo.webp" type="image/webp">
+      <!-- fallback: PNG/JPG -->
+      <img class="logo" src="logo.png" alt="Royal Hotel logo"
+           onerror="this.onerror=null; this.src='logo.jpg'">
+    </picture>
   </div>
   <div class="hero-img">
-    <img class="header-image" src="./header.webp" alt="Header image">
+    <picture>
+      <source srcset="header.webp" type="image/webp">
+      <!-- fallback: JPG/PNG -->
+      <img class="header-image" src="header.jpg" alt="Header image"
+           onerror="this.onerror=null; this.src='header.png'">
+    </picture>
     <div class="water-shimmer"></div>
   </div>
 </header>
