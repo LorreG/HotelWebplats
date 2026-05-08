@@ -14,15 +14,13 @@
   <div class="logo-box">
     <picture>
       <source srcset="logo.webp" type="image/webp">
-      <img src="logo.png" alt="Royal Hotel logo">
+      <img class="logo" src="logo.png" data-base="logo" alt="Royal Hotel logo">
     </picture>
   </div>
   <div class="hero-img">
     <picture>
       <source srcset="header.webp" type="image/webp">
-      <!-- fallback: JPG/PNG -->
-      <img class="header-image" src="header.jpg" alt="Header image"
-           onerror="this.onerror=null; this.src='header.png'">
+      <img class="header-image" src="header.jpg" data-base="header" alt="Header image">
     </picture>
     <div class="water-shimmer"></div>
   </div>
@@ -210,6 +208,32 @@
         btn.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
       }
+    });
+  })();
+</script>
+
+<!-- Fallback loader: försök webp -> png -> jpg om webp inte finns (bra för Pages/Firefox) -->
+<script>
+  (function(){
+    const exts = ['.webp','.png','.jpg'];
+    async function tryVariants(img){
+      const base = img.dataset.base;
+      if(!base) return;
+      for(const ext of exts){
+        const candidate = `${base}${ext}`;
+        try {
+          const url = new URL(candidate, location.href).href;
+          const res = await fetch(url, { method: 'HEAD' });
+          if (res.ok) { img.src = candidate; return; }
+        } catch(e){ /* nätverksfel -> prova nästa */ }
+      }
+    }
+    // kör för alla bilder med data-base
+    document.querySelectorAll('img[data-base]').forEach(img => {
+      // om default src misslyckas, försök varianter
+      img.addEventListener('error', () => tryVariants(img), { once: true });
+      // också kör en kontroll direkt (för GitHub Pages där HEAD kan svara)
+      tryVariants(img);
     });
   })();
 </script>
