@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>hitta</title>
+  <meta name="description" content="hitta till royal hotel. karta, adress och vagen hit.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- NAV (först) -->
+  <nav>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="visa meny">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <ul id="main-nav" role="menu">
+      <li role="none"><a role="menuitem" href="index.html">start</a></li>
+      <li role="none"><a role="menuitem" href="boka.html">boka</a></li>
+      <li role="none"><a role="menuitem" href="hitta.html" class="active">hitta</a></li>
+      <li role="none"><a role="menuitem" href="kontakta.html">kontakta</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>hitta</h1>
+
+    <section class="card">
+      <h2>hitta hit</h2>
+      <div class="map-wrapper" style="max-width:100%;overflow:hidden;border-radius:12px;">
+        <iframe
+          class="map-embed"
+          src="https://maps.google.com/maps?q=Thondi+Beach,+Tamil+Nadu,+India&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="karta till royal hotel">
+        </iframe>
+      </div>
+      <h3>adress</h3>
+      <p class="contact-info">royal hotel<br>p2vc7q2 thondi beach road<br>thondi, tamil nadu 623409<br>india<br><br>📞 420676169<br>✉️ something@gmail.com</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>royal hotel</span> <span class="divider">|</span>
+    <span>p2vc7q2 thondi tamilnadu 623409 india</span> <span class="divider">|</span>
+    <span>420676169</span>
+  </footer>
+
+  <script>
+    (function(){
+      const btn = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('main-nav');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        btn.classList.toggle('open');
+        document.body.classList.toggle('nav-open');
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+          document.body.classList.remove('nav-open'); btn.classList.remove('open'); btn.setAttribute('aria-expanded','false'); btn.focus();
+        }
+      });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('nav') && document.body.classList.contains('nav-open')) {
+          document.body.classList.remove('nav-open'); btn.classList.remove('open'); btn.setAttribute('aria-expanded','false');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>boka</title>
+  <meta name="description" content="boka rum pa royal hotel. fyll i namn, rumstyp och onskemal.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- NAV (ska ligga först enligt krav) -->
+  <nav>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="visa meny">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <ul id="main-nav" role="menu">
+      <li role="none"><a role="menuitem" href="index.html">start</a></li>
+      <li role="none"><a role="menuitem" href="boka.html" class="active">boka</a></li>
+      <li role="none"><a role="menuitem" href="hitta.html">hitta</a></li>
+      <li role="none"><a role="menuitem" href="kontakta.html">kontakta</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>boka</h1>
+
+    <section class="card booking-form" aria-labelledby="boka-heading">
+      <h2 id="boka-heading">boka rum</h2>
+      <form action="#" method="post" novalidate>
+        <label for="fname">förnamn</label>
+        <input id="fname" name="fname" type="text" placeholder="ditt förnamn">
+
+        <label for="lname">efternamn</label>
+        <input id="lname" name="lname" type="text" placeholder="ditt efternamn">
+
+        <label for="rumstyp">rumstyp</label>
+        <select id="rumstyp" name="rumstyp">
+          <option value="">välj rumstyp…</option>
+          <option>standard enkelrum</option>
+          <option>standard dubbelrum</option>
+          <option>deluxe dubbelrum</option>
+          <option>svit</option>
+        </select>
+
+        <label for="ovrigt">övrigt</label>
+        <textarea id="ovrigt" name="ovrigt" placeholder="eventuella önskemal"></textarea>
+
+        <fieldset class="radio-group" aria-label="frukost">
+          <legend style="position:absolute;left:-10000px;">frukost</legend>
+          <label><input type="radio" name="breakfast" value="ja" checked> ja</label>
+          <label><input type="radio" name="breakfast" value="nej"> nej</label>
+        </fieldset>
+
+        <button type="button" class="btn-skicka" id="skicka-bokning">skicka</button>
+        <p id="boka-confirm" style="font-size:14px;opacity:0;transition:opacity .3s;color:#f5f0e8;margin-top:12px;">✓ din bokning har skickats!</p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <span>royal hotel</span> <span class="divider">|</span>
+    <span>p2vc7q2 thondi tamilnadu 623409 india</span> <span class="divider">|</span>
+    <span>420676169</span>
+  </footer>
+
+  <script>
+    // hamburger + accessibility (same as index)
+    (function(){
+      const btn = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('main-nav');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        btn.classList.toggle('open');
+        document.body.classList.toggle('nav-open');
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+          document.body.classList.remove('nav-open'); btn.classList.remove('open'); btn.setAttribute('aria-expanded','false'); btn.focus();
+        }
+      });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('nav') && document.body.classList.contains('nav-open')) {
+          document.body.classList.remove('nav-open'); btn.classList.remove('open'); btn.setAttribute('aria-expanded','false');
+        }
+      });
+      // boka confirm
+      document.getElementById('skicka-bokning').addEventListener('click', () => {
+        const c = document.getElementById('boka-confirm'); c.style.opacity = '1'; setTimeout(()=> c.style.opacity='0', 3000);
+      });
+    })();
+  </script>
+</body>
+</html>
