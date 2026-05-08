@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Royal Hotel</title>
+  <title>royal-hotel — välkommen</title>
+  <meta name="description" content="Royal Hotel — välkommen. Lyx och lugn vid Thondi Beach. Boka rum, hitta hit och kontakta oss.">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -158,13 +159,30 @@
 </footer>
 
 <script>
+  // sida-titlar och meta descriptions per vy (inga åäö i filnamn enligt C-krav)
+  const pageMeta = {
+    valkommen: { title: 'royal-hotel — valkommen', description: 'Royal Hotel — en fristad av lyx och lugn vid Thondi Beach.' },
+    boka:     { title: 'royal-hotel — boka',     description: 'Boka rum på Royal Hotel. Ange namn, rumstyp och önskemål.' },
+    hitta:    { title: 'royal-hotel — hitta',    description: 'Hitta till Royal Hotel. Adress och karta till Thondi Beach.' },
+    kontakta: { title: 'royal-hotel — kontakta', description: 'Kontakta Royal Hotel via telefon eller e‑post.' }
+  };
+
+  function setMeta(id) {
+    const meta = pageMeta[id] || { title: 'royal-hotel', description: '' };
+    document.title = meta.title;
+    const desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', meta.description);
+  }
+
   function showPage(id, link) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
     const page = document.getElementById('page-' + id);
     if (page) page.classList.add('active');
     if (link) link.classList.add('active');
-    // close mobile menu after click
+    // uppdatera title + meta
+    setMeta(id);
+    // stäng mobilmeny
     const btn = document.querySelector('.nav-toggle');
     if (document.body.classList.contains('nav-open')) {
       document.body.classList.remove('nav-open');
@@ -192,7 +210,6 @@
       document.body.classList.toggle('nav-open');
       if (!expanded) menu.querySelector('a')?.focus();
     });
-    // close on ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
         document.body.classList.remove('nav-open');
@@ -201,39 +218,12 @@
         btn.focus();
       }
     });
-    // close when clicking a link (handled in showPage) and also when clicking outside menu
     document.addEventListener('click', (e) => {
       if (!e.target.closest('nav') && document.body.classList.contains('nav-open')) {
         document.body.classList.remove('nav-open');
         btn.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
       }
-    });
-  })();
-</script>
-
-<!-- Fallback loader: försök webp -> png -> jpg om webp inte finns (bra för Pages/Firefox) -->
-<script>
-  (function(){
-    const exts = ['.webp','.png','.jpg'];
-    async function tryVariants(img){
-      const base = img.dataset.base;
-      if(!base) return;
-      for(const ext of exts){
-        const candidate = `${base}${ext}`;
-        try {
-          const url = new URL(candidate, location.href).href;
-          const res = await fetch(url, { method: 'HEAD' });
-          if (res.ok) { img.src = candidate; return; }
-        } catch(e){ /* nätverksfel -> prova nästa */ }
-      }
-    }
-    // kör för alla bilder med data-base
-    document.querySelectorAll('img[data-base]').forEach(img => {
-      // om default src misslyckas, försök varianter
-      img.addEventListener('error', () => tryVariants(img), { once: true });
-      // också kör en kontroll direkt (för GitHub Pages där HEAD kan svara)
-      tryVariants(img);
     });
   })();
 </script>
