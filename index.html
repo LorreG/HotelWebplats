@@ -14,16 +14,16 @@
 <header>
   <div class="logo-box">
     <picture>
-      <source srcset="logo.webp" type="image/webp">
-      <source srcset="logo.png" type="image/png">
-      <img class="logo" src="logo.png" alt="royal hotel logo">
+      <source srcset="./logo.webp" type="image/webp">
+      <source srcset="./logo.png" type="image/png">
+      <img class="logo" src="./logo.png" alt="royal hotel logo">
     </picture>
   </div>
   <div class="hero-img">
     <picture>
-      <source srcset="header.webp" type="image/webp">
-      <source srcset="header.jpg" type="image/jpeg">
-      <img class="header-image" src="header.jpg" alt="header image">
+      <source srcset="./header.webp" type="image/webp">
+      <source srcset="./header.jpg" type="image/jpeg">
+      <img class="header-image" src="./header.jpg" alt="header image">
     </picture>
     <div class="water-shimmer"></div>
   </div>
@@ -230,57 +230,62 @@
   })();
 </script>
 
-<!-- Lägg till denna script precis före </body> -->
+<!-- lägg detta script precis före </body> -->
 <script>
-  (function(){
-    // försök ladda webp -> png -> jpg för logo och header
-    const images = [
-      { selector: '.logo', base: 'logo' },
-      { selector: '.header-image', base: 'header' }
-    ];
-    const exts = ['.webp', '.png', '.jpg', '.jpeg'];
+(function(){
+  const images = [
+    { selector: '.logo', base: './logo' },
+    { selector: '.header-image', base: './header' }
+  ];
+  const exts = ['.webp','.png','.jpg','.jpeg'];
 
-    async function checkAndSet(imgEl, base) {
-      if (!imgEl) return;
-      // om redan en giltig src så behåll den
+  async function trySet(imgEl, base){
+    if(!imgEl) return console.log('no element for', base);
+    console.log('checking image variants for', base);
+    // om aktuell src redan svarar OK, behåll den
+    try {
+      const current = imgEl.getAttribute('src') || '';
+      if(current){
+        const r = await fetch(new URL(current, location.href), { method: 'HEAD' }).catch(()=>null);
+        if(r && r.ok){ console.log('current src ok:', current); return; }
+      }
+    } catch(e){}
+    // testa varianter och logga
+    for(const ext of exts){
+      const candidate = base + ext;
+      const url = new URL(candidate, location.href).href;
+      console.log('→ testing', url);
       try {
-        const current = imgEl.src || imgEl.getAttribute('src') || '';
-        if (current) {
-          const r = await fetch(current, { method: 'HEAD' }).catch(()=>null);
-          if (r && r.ok) return;
+        const res = await fetch(url, { method: 'HEAD' }).catch(()=>null);
+        if(res && res.ok){
+          console.log('✔ found', url);
+          imgEl.src = candidate;
+          return;
+        }
+      } catch(e){ /* ignore */ }
+    }
+    // sista försök utan HEAD (vissa servrar blockar HEAD)
+    for(const ext of exts){
+      const candidate = base + ext;
+      const url = new URL(candidate, location.href).href;
+      try {
+        const res = await fetch(url).catch(()=>null);
+        if(res && res.ok){
+          console.log('✔ (GET) found', url);
+          imgEl.src = candidate;
+          return;
         }
       } catch(e){}
-      // testa varianter
-      for (const ext of exts) {
-        const candidate = base + ext;
-        try {
-          const res = await fetch(candidate, { method: 'HEAD' });
-          if (res && res.ok) {
-            imgEl.src = candidate;
-            return;
-          }
-        } catch (e) { /* nätverksfel -> prova nästa */ }
-      }
-      // fallback: försök utan HEAD (vissa servrar blockerar HEAD)
-      for (const ext of exts) {
-        const candidate = base + ext;
-        try {
-          const res = await fetch(candidate);
-          if (res && res.ok) {
-            imgEl.src = candidate;
-            return;
-          }
-        } catch(e){}
-      }
     }
+    console.warn('no variant found for', base);
+  }
 
-    images.forEach(({selector, base}) => {
-      const el = document.querySelector(selector);
-      checkAndSet(el, base);
-      // om bildtaggen misslyckas vid runtime, försök varianter då också
-      if (el) el.addEventListener('error', () => checkAndSet(el, base), { once: true });
-    });
-  })();
+  images.forEach(it => {
+    const el = document.querySelector(it.selector);
+    trySet(el, it.base);
+    if(el) el.addEventListener('error', () => trySet(el, it.base), { once: true });
+  });
+})();
 </script>
 </body>
 </html>
